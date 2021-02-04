@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["ukaza@hey.com"]
 
   spec.summary       = "Simple and dynamic user roles and permissions scheme for Rails"
-  spec.description   = "Permisi provides a way of dynamically declaring user rights using a simple role-based access control scheme. A user may be associated to multiple roles with a different set of rights in each roles."
+  spec.description   = "Permisi provides a way of dynamically declaring user rights (a.k.a. permissions) using a simple role-based access control scheme. A user may be associated to multiple roles with a different set of rights in each role."
   spec.homepage      = "https://github.com/ukazap/permisi"
   spec.license       = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.4.0")
