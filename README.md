@@ -1,10 +1,5 @@
-# Permisi
-
-[![Gem Version](https://badge.fury.io/rb/permisi.svg)](https://badge.fury.io/rb/permisi)
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/permisi`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+| [<img width="100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Female_Chinese_Lion_Statue.jpg/254px-Female_Chinese_Lion_Statue.jpg">](https://en.wikipedia.org/wiki/Chinese_guardian_lions) | <p>Permisi provides a way of dynamically declaring user rights (a.k.a. permissions) using a simple role-based access control scheme.</p> <p>A user may be associated to multiple roles with a different set of rights in each role.</p> <p>[![Gem Version](https://badge.fury.io/rb/permisi.svg)](https://badge.fury.io/rb/permisi)</p> | [<img width="100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Male_Chinese_Lion_Statue.jpg/246px-Male_Chinese_Lion_Statue.jpg">](https://en.wikipedia.org/wiki/Chinese_guardian_lions) |
+| - | - | - |
 
 ## Installation
 
@@ -21,6 +16,50 @@ And then execute:
 Or install it yourself as:
 
     $ gem install permisi
+
+## Defining available permissions
+
+To define all available action permissions, assign a hash to `config.permissions` with the following format:
+
+```ruby
+# config/initializers/permisi.rb
+
+Permisi.init do |config|
+  # ...
+  config.permissions = {
+    # A symbol-array pair denotes a namespace.
+    # A common use of namespacing is for grouping
+    # available actions by resources.
+    authors: [
+      # Enclosed in the array are symbols
+      # denoting available actions in the namespace:
+      :list,
+      :view,
+      :create,
+      :edit,
+      :edit_self,
+      :delete
+    ],
+    # You can also use the simplified %i[] notation:
+    publishers: %i[list view create edit delete],
+    # Besides actions, you can also have nested
+    # namespaces:
+    books: [
+      :list,
+      :view,
+      :create,
+      :edit,
+      :delete,
+      {
+        editions: [
+          :list, :view, :create, :edit, :delete, :archive
+        ]
+      }
+    ]
+  }
+  # ...
+end
+```
 
 ## Usage
 
