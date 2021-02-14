@@ -5,6 +5,8 @@
 
 ## Installation
 
+! THIS GEM IS UNDER CONSTRUCTION !
+
 Add this line to your application's Gemfile:
 
 ```ruby
