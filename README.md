@@ -1,3 +1,5 @@
+# Permisi
+
 | [<img width="100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Female_Chinese_Lion_Statue.jpg/254px-Female_Chinese_Lion_Statue.jpg">](https://en.wikipedia.org/wiki/Chinese_guardian_lions) | <p>Permisi provides a way of dynamically declaring user rights (a.k.a. permissions) using a simple role-based access control scheme.</p> <p>A user may be associated to multiple roles with a different set of rights in each role.</p> <p>[![Gem Version](https://badge.fury.io/rb/permisi.svg)](https://badge.fury.io/rb/permisi)</p> | [<img width="100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Male_Chinese_Lion_Statue.jpg/246px-Male_Chinese_Lion_Statue.jpg">](https://en.wikipedia.org/wiki/Chinese_guardian_lions) |
 | - | - | - |
 
