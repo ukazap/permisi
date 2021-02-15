@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    permisi (0.0.1)
+    permisi (0.1.0)
       activemodel (>= 3.2.0)
       activerecord (>= 3.2.0)
       activesupport (>= 3.2.0)
@@ -67,6 +67,7 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.2)
+    sqlite3 (1.4.2)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.0.0)
@@ -82,6 +83,7 @@ DEPENDENCIES
   rspec (~> 3.0)
   rubocop (~> 1.9)
   simplecov (~> 0.21.2)
+  sqlite3 (~> 1.4)
 
 BUNDLED WITH
    2.2.5
