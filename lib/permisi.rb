@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 require "zeitwerk"
-loader = Zeitwerk::Loader.for_gem
-loader.setup
+$permisi_loader = Zeitwerk::Loader.for_gem
+$permisi_loader.ignore("#{__dir__}/generators")
+$permisi_loader.ignore("#{__dir__}/permisi/backend/mongoid.rb") # todo
+$permisi_loader.setup
 
 module Permisi
   class << self
