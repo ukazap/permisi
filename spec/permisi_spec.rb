@@ -5,7 +5,57 @@ RSpec.describe Permisi do
     expect(Permisi::VERSION).not_to be nil
   end
 
-  it "is feature complete" do
-    expect(true).to eq false
+  describe ".init" do
+    it "initializes the gem" do
+      Permisi.init { |config| config.permissions = { a: [:b] } }
+      expect(Permisi.config.permissions).to eq HashWithIndifferentAccess.new({ a: [:b] })
+    end
+  end
+
+  describe ".actor" do
+    it "find an actor or create it if doesn't already exist" do
+      DummyBackend.reset
+      allow(Permisi.config).to receive(:backend) { DummyBackend }
+
+      aka = Struct.new(:name).new("Esther")
+
+      expect(Permisi.actors).to be_empty
+
+      actor = Permisi.actor(aka)
+      expect(actor).to be_a Permisi.config.backend::Actor
+
+      expect(Permisi.actors).not_to be_empty
+    end
+  end
+
+  describe ".actors" do
+    it "returns actors" do
+      DummyBackend.reset
+      allow(Permisi.config).to receive(:backend) { DummyBackend }
+      expect(Permisi.actors).to eq ([])
+    end
+  end
+
+  describe ".roles" do
+    it "returns roles" do
+      DummyBackend.reset
+      allow(Permisi.config).to receive(:backend) { DummyBackend }
+      expect(Permisi.roles).to eq ([])
+    end
+  end
+
+  describe ".__backend" do
+    context "with valid backend" do
+      it "returns the backend" do
+        allow(Permisi.config).to receive(:backend) { DummyBackend }
+        expect(Permisi.send("__backend")).to eq DummyBackend
+      end
+    end
+
+    context "with invalid backend" do
+      it "raises InvalidBackend" do
+        expect { Permisi.send("__backend") }.to raise_error Permisi::Backend::InvalidBackend
+      end
+    end
   end
 end

@@ -7,6 +7,7 @@ module Permisi
 
     def initialize
       @permissions = ::HashWithIndifferentAccess.new
+      @default_permissions = ::HashWithIndifferentAccess.new
     end
 
     def backend=(chosen_backend)
@@ -15,12 +16,14 @@ module Permisi
       end
 
       @backend = chosen_backend
+    rescue NameError
+      raise Backend::InvalidBackend
     end
 
-    def permissions=(hash)
-      hash = HashWithIndifferentAccess.new(hash) unless hash.is_a?(HashWithIndifferentAccess)
-      @default_permissions = PermissionUtil.transform_namespace(@permissions)
-      @permissions = hash
+    def permissions=(permissions_hash)
+      permissions_hash = HashWithIndifferentAccess.new(permissions_hash)
+      @default_permissions = PermissionUtil.transform_namespace(permissions_hash)
+      @permissions = permissions_hash
     end
   end
 end
