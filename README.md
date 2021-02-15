@@ -30,7 +30,7 @@ This is not an alternative to CanCanCan/Pundit, instead it complement them with 
 Permisi has three basic concepts:
 
 - Actor: a person, group of people, or an automated agent who interacts with the app
-- Role: a job function which determines an actor's authority
+- Role: a job function, job title, or rank which determines an actor's authority
 - Permission: the ability to perform an action
 
 ## Installation
