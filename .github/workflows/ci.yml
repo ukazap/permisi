@@ -1,12 +1,10 @@
-name: RSpec
+name: Lint and test
 
 on:
   push:
     branches:
       - main
   pull_request:
-    branches:
-      - main
 
 jobs:
   build:
@@ -35,6 +33,14 @@ jobs:
       run: |
         bundle config path vendor/bundle
         bundle install --jobs 4 --retry 3
+
+    - name: Run RuboCop
+      uses: reviewdog/action-rubocop@v1
+      with:
+        rubocop_version: gemfile
+        rubocop_extensions: rubocop-rails:gemfile rubocop-rspec:gemfile
+        github_token: ${{ secrets.github_token }}
+        reporter: github-pr-check # Default is github-pr-check
 
     - name: Run RSpec
       run: bundle exec rake spec
