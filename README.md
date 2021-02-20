@@ -152,11 +152,11 @@ admin_role.allows? "books.delete" # == true
 
 ## Configuring actors
 
-You can then give or take multiple roles to an actor which will allow or prevent them to perform certain actions in a flexible manner. But before you can do that, you have to wire up your user model with Permisi.
+You can then give or take multiple roles to an actor which will allow or prevent them to perform certain actions in a flexible manner. But before you can do that, you have to wire up your user model with Permisi using via `Permisi::Actable` mixin.
 
 Permisi does not hold an assumption that a specific model is present (e.g. User model). Instead, it keeps track of "actors" internally. The goal is to support multiple use cases such as actor polymorphism, user _groups_, etc.
 
-For example, you can map your user model to Permisi's actor model by including the `Permisi::Actable` mixin like so:
+For example, you can map your user model to Permisi's actor model like so:
 
 ```ruby
 # app/models/user.rb
@@ -166,19 +166,27 @@ class User < ApplicationRecord
 end
 ```
 
-You can then interact with the new `#permisi` method:
+You can then interact using `#permisi` method:
 
 ```ruby
 user = User.find_by_email "esther@example.com"
 user.permisi # => instance of Actor
 
-user.permisi.has_role? :admin # == false
-user.permisi.may? "books.delete" # == false
+admin_role = Permisi.roles.find_by_slug(:admin)
+admin_role.allows? "books.delete" # == true
 
-user.permisi.roles << Permisi.roles.find_by_slug(:admin)
+user.permisi.roles << admin_role
 
-user.permisi.has_role? :admin # == true
-user.permisi.may? "books.delete" # == true
+user.permisi.role? :admin # == true
+user.permisi.has_role? :admin # == user.permisi.role? :admin
+
+user.permisi.may_i? "books.delete" # == true
+user.permisi.may? "books.delete" # == user.permisi.may_i? "books.delete"
+
+user.permisi.roles.destroy(admin_role)
+
+user.permisi.role? :admin # == false
+user.permisi.may_i? "books.delete" # == false
 ```
 
 ## Contributing
