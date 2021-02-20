@@ -8,6 +8,11 @@ SimpleCov.start do
   add_filter "/spec/"
 end
 
+if !ENV["CODECOV_TOKEN"].nil?
+  require "codecov"
+  SimpleCov.formatter = SimpleCov::Formatter::Codecov
+end
+
 Dir["./spec/support/**/*.rb"].sort.each { |f| require f }
 
 db_config = { "adapter" => "sqlite3", "database" => "spec/support/db/test.db" }

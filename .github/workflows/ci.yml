@@ -4,10 +4,14 @@ on:
   push:
     branches:
       - main
+    tags:
+      - '!*'
   pull_request:
+    paths:
+      - '!*.MD'
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -44,3 +48,5 @@ jobs:
 
     - name: Run RSpec
       run: bundle exec rake spec
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

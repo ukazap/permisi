@@ -9,8 +9,15 @@
       <h1>Permisi</h1>
       <p><em>Simple and dynamic role-based access control for Rails</em></p>
       <p>
-        <a href="https://badge.fury.io/rb/permisi"><img src="https://badge.fury.io/rb/permisi.svg" alt="Gem Version"></a>
-        <a href="https://codeclimate.com/github/ukazap/permisi/maintainability"><img src="https://api.codeclimate.com/v1/badges/0b1238302f2012b20740/maintainability" /></a>
+        <a href="https://badge.fury.io/rb/permisi">
+          <img src="https://badge.fury.io/rb/permisi.svg" alt="Gem Version">
+        </a>
+        <a href="https://codeclimate.com/github/ukazap/permisi/maintainability">
+          <img src="https://api.codeclimate.com/v1/badges/0b1238302f2012b20740/maintainability" />
+        </a>
+        <a href="https://codecov.io/gh/ukazap/permisi">
+          <img src="https://codecov.io/gh/ukazap/permisi/branch/main/graph/badge.svg?token=9YRMVFCDA8"/>
+        </a>
       </p>
     </th>
     <th>
