@@ -33,9 +33,9 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "activesupport", ">= 3.2.0"
-  spec.add_dependency "activerecord", ">= 3.2.0"
   spec.add_dependency "activemodel", ">= 3.2.0"
+  spec.add_dependency "activerecord", ">= 3.2.0"
+  spec.add_dependency "activesupport", ">= 3.2.0"
   spec.add_dependency "zeitwerk", ["~> 2.4", ">= 2.4.2"]
 
   # For more information and examples about making a new gem, checkout our

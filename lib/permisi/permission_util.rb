@@ -1,5 +1,4 @@
-require "active_model/type"
-require "active_support/hash_with_indifferent_access"
+# frozen_string_literal: true
 
 module Permisi
   module PermissionUtil
@@ -7,32 +6,39 @@ module Permisi
 
     class << self
       def allows?(hash, action_path)
-        return false unless hash.kind_of?(Hash)
+        return false unless hash.is_a?(Hash)
 
         action_path_arr = action_path.split(".")
-        (!Permisi.config.default_permissions.dig(*action_path_arr).nil? rescue false) &&
+        begin
+          !Permisi.config.default_permissions.dig(*action_path_arr).nil?
+        rescue StandardError
+          false
+        end &&
           hash.dig(*action_path_arr) == true
       end
 
       def transform_namespace(namespace, current_path: nil)
         HashWithIndifferentAccess.new.tap do |transformed|
           namespace.each_pair do |key, value|
-            raise InvalidNamespace,
-                  "`#{[current_path, key].compact.join(".")}` should be an array" unless value.is_a? Array
+            unless value.is_a? Array
+              raise InvalidNamespace,
+                    "`#{[current_path, key].compact.join(".")}` should be an array"
+            end
 
             value.each.with_index do |arr_v, arr_i|
-              if arr_v.is_a?(Symbol)
+              case arr_v
+              when Symbol
                 transformed[key] ||= ::HashWithIndifferentAccess.new
-                if transformed[key].has_key? arr_v
+                if transformed[key].key? arr_v
                   raise InvalidNamespace, "duplicate entry: `#{[current_path, key, arr_v].compact.join(".")}`"
                 end
 
                 transformed[key][arr_v] = false
-              elsif arr_v.is_a?(Hash)
+              when Hash
                 transform_namespace(arr_v,
                                     current_path: [current_path, key].compact.join(".")).each_pair do |ts_k, ts_v|
                   transformed[key] ||= ::HashWithIndifferentAccess.new
-                  if transformed[key].has_key? ts_k
+                  if transformed[key].key? ts_k
                     raise InvalidNamespace, "duplicate entry: `#{[current_path, key, ts_k].compact.join(".")}`"
                   end
 
@@ -56,13 +62,13 @@ module Permisi
       def __deeply_sanitize_permissions(permission_hash, template: {})
         HashWithIndifferentAccess.new.tap do |sanitized|
           permission_hash.each_pair do |key, value|
-            next unless template.has_key?(key)
+            next unless template.key?(key)
 
-            if value.is_a?(Hash)
-              sanitized[key] = __deeply_sanitize_permissions(value, template: template[key])
-            else
-              sanitized[key] = __cast_value_to_boolean(value)
-            end
+            sanitized[key] = if value.is_a?(Hash)
+                               __deeply_sanitize_permissions(value, template: template[key])
+                             else
+                               __cast_value_to_boolean(value)
+                             end
           end
         end
       end

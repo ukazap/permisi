@@ -1,10 +1,10 @@
-require "permisi/backend/base"
+# frozen_string_literal: true
 
-class DummyBackend < Permisi::Backend::Base
-  @@actors = []
-  @@roles = []
+class DummyBackend
+  @actors = []
+  @roles = []
 
-  class Actor < Struct.new(:aka)
+  Actor = Struct.new(:aka) do
     def initialize(aka)
       super
       DummyBackend.actors << self
@@ -13,17 +13,11 @@ class DummyBackend < Permisi::Backend::Base
 
   class << self
     def reset
-      @@actors = []
-      @@roles = []
+      @actors = []
+      @roles = []
     end
 
-    def actors
-      @@actors
-    end
-
-    def roles
-      @@roles
-    end
+    attr_reader :actors, :roles
 
     def findsert_actor(aka)
       Actor.new(aka)

@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-# require "byebug"
+require "byebug"
 require "simplecov"
 require "active_record"
 
 SimpleCov.start do
-  add_filter '/spec/'
+  add_filter "/spec/"
 end
 
-Dir['./spec/support/**/*.rb'].sort.each { |f| require f }
+Dir["./spec/support/**/*.rb"].sort.each { |f| require f }
 
-db_config = {"adapter" => "sqlite3", "database" => "spec/support/db/test.db"}
+db_config = { "adapter" => "sqlite3", "database" => "spec/support/db/test.db" }
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -34,4 +34,4 @@ RSpec.configure do |config|
 end
 
 require "permisi"
-$permisi_loader.eager_load
+Permisi::LOADER.eager_load

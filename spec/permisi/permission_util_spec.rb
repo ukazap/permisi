@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 
 RSpec.describe Permisi::PermissionUtil do
   describe ".allows?" do
     before(:context) do
       @namespace_hash = {
-        namespace_a: [:action_a, :action_b],
+        namespace_a: %i[action_a action_b],
         namespace_b: [:action_a, :action_b, {
-          namespace_b_1: [:action_a, :action_b],
+          namespace_b_1: %i[action_a action_b],
           namespace_b_2: [:action_a, :action_b, {
-            namespace_b_2_1: [:action_a, :action_b]
+            namespace_b_2_1: %i[action_a action_b]
           }]
         }]
       }
@@ -46,8 +48,8 @@ RSpec.describe Permisi::PermissionUtil do
     context "with hash containing valid namespaces" do
       let(:hash) do
         {
-          namespace_a: [:action_a, :action_b],
-          namespace_b: [:action_a, :action_b, :action_c]
+          namespace_a: %i[action_a action_b],
+          namespace_b: %i[action_a action_b action_c]
         }
       end
 
@@ -69,11 +71,11 @@ RSpec.describe Permisi::PermissionUtil do
     context "with hash containing nested namespaces" do
       let(:hash) do
         {
-          namespace_a: [:action_a, :action_b],
+          namespace_a: %i[action_a action_b],
           namespace_b: [:action_a, :action_b, {
-            namespace_b_1: [:action_a, :action_b],
+            namespace_b_1: %i[action_a action_b],
             namespace_b_2: [:action_a, :action_b, {
-              namespace_b_2_1: [:action_a, :action_b]
+              namespace_b_2_1: %i[action_a action_b]
             }]
           }]
         }
@@ -108,9 +110,9 @@ RSpec.describe Permisi::PermissionUtil do
     context "with hash containing duplicate actions" do
       let(:hash) do
         {
-          namespace_a: [
-            :action_a,
-            :action_a
+          namespace_a: %i[
+            action_a
+            action_a
           ]
         }
       end
@@ -118,25 +120,25 @@ RSpec.describe Permisi::PermissionUtil do
         {
           namespace_a: [
             :action_a,
-            namespace_a_1: [
+            { namespace_a_1: [
               :action_a,
               {
                 action_a: [:action_a]
               }
-            ]
+            ] }
           ]
         }
       end
 
       it "raises InvalidNamespace" do
-        expect {
+        expect do
           described_class.transform_namespace(hash)
-        }.to raise_error(Permisi::PermissionUtil::InvalidNamespace,
-                         "duplicate entry: `namespace_a.action_a`")
-        expect {
+        end.to raise_error(Permisi::PermissionUtil::InvalidNamespace,
+                           "duplicate entry: `namespace_a.action_a`")
+        expect do
           described_class.transform_namespace(hash_2)
-        }.to raise_error(Permisi::PermissionUtil::InvalidNamespace,
-                         "duplicate entry: `namespace_a.namespace_a_1.action_a`")
+        end.to raise_error(Permisi::PermissionUtil::InvalidNamespace,
+                           "duplicate entry: `namespace_a.namespace_a_1.action_a`")
       end
     end
 
@@ -144,10 +146,10 @@ RSpec.describe Permisi::PermissionUtil do
       let(:hash) { { namespace_a: 123 } }
 
       it "raises InvalidNamespace" do
-        expect {
+        expect do
           described_class.transform_namespace(hash)
-        }.to raise_error(Permisi::PermissionUtil::InvalidNamespace,
-                         "`namespace_a` should be an array")
+        end.to raise_error(Permisi::PermissionUtil::InvalidNamespace,
+                           "`namespace_a` should be an array")
       end
     end
 
@@ -157,18 +159,18 @@ RSpec.describe Permisi::PermissionUtil do
       let(:hash_3) { { namespace_a: [:action_a, :action_b, "action_c"] } }
 
       it "raises InvalidNamespace" do
-        expect {
+        expect do
           described_class.transform_namespace(hash)
-        }.to raise_error(Permisi::PermissionUtil::InvalidNamespace,
-                         "`namespace_a[2]` should be a symbol or a hash")
-        expect {
+        end.to raise_error(Permisi::PermissionUtil::InvalidNamespace,
+                           "`namespace_a[2]` should be a symbol or a hash")
+        expect do
           described_class.transform_namespace(hash_2)
-        }.to raise_error(Permisi::PermissionUtil::InvalidNamespace,
-                         "`namespace_a[1]` should be a symbol or a hash")
-        expect {
+        end.to raise_error(Permisi::PermissionUtil::InvalidNamespace,
+                           "`namespace_a[1]` should be a symbol or a hash")
+        expect do
           described_class.transform_namespace(hash_3)
-        }.to raise_error(Permisi::PermissionUtil::InvalidNamespace,
-                         "`namespace_a[2]` should be a symbol or a hash")
+        end.to raise_error(Permisi::PermissionUtil::InvalidNamespace,
+                           "`namespace_a[2]` should be a symbol or a hash")
       end
     end
   end
@@ -184,7 +186,7 @@ RSpec.describe Permisi::PermissionUtil do
             "a4" => "false",
             "a5" => false,
             "a6" => nil,
-            "a7" => "",
+            "a7" => ""
           },
           "b" => {
             "b1" => nil,
@@ -206,7 +208,7 @@ RSpec.describe Permisi::PermissionUtil do
               "a4" => false,
               "a5" => false,
               "a6" => false,
-              "a7" => false,
+              "a7" => false
             },
             "b" => {
               "b1" => false,
@@ -226,7 +228,7 @@ RSpec.describe Permisi::PermissionUtil do
                                                                      "a4" => false,
                                                                      "a5" => false,
                                                                      "a6" => false,
-                                                                     "a7" => false,
+                                                                     "a7" => false
                                                                    },
                                                                    "b" => {
                                                                      "b1" => false,
