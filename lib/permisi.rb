@@ -1,41 +1,35 @@
 # frozen_string_literal: true
 
+require "active_model/type"
+require "active_support/hash_with_indifferent_access"
 require "zeitwerk"
-$permisi_loader = Zeitwerk::Loader.for_gem
-$permisi_loader.ignore("#{__dir__}/generators")
-$permisi_loader.ignore("#{__dir__}/permisi/backend/mongoid.rb") # todo
-$permisi_loader.setup
 
 module Permisi
+  LOADER = Zeitwerk::Loader.for_gem
+
   class << self
-    def init(&block)
+    def init
       yield config if block_given?
     end
 
     def config
-      @@config ||= Config.new
+      @config ||= Config.new
     end
 
     def actors
-      __backend.actors
+      config.backend.actors
     end
 
     def actor(aka)
-      __backend.findsert_actor(aka)
+      config.backend.findsert_actor(aka)
     end
 
     def roles
-      __backend.roles
-    end
-
-    private
-
-    def __backend
-      if config.backend.nil? || !(config.backend <= Backend::Base)
-        raise Backend::InvalidBackend
-      end
-
-      config.backend
+      config.backend.roles
     end
   end
 end
+
+Permisi::LOADER.ignore("#{__dir__}/generators")
+Permisi::LOADER.ignore("#{__dir__}/permisi/backend/mongoid.rb") # todo
+Permisi::LOADER.setup

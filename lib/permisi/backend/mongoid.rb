@@ -1,5 +1,9 @@
+# frozen_string_literal: true
+
 module Permisi
-  class Backend::Mongoid < Backend::Base
-    raise "under construction"
+  module Backend
+    module Mongoid
+      raise "under construction"
+    end
   end
 end

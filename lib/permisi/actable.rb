@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Permisi
   module Actable
     def permisi_actor

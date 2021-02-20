@@ -32,7 +32,7 @@ RSpec.describe Permisi do
     it "returns actors" do
       DummyBackend.reset
       allow(Permisi.config).to receive(:backend) { DummyBackend }
-      expect(Permisi.actors).to eq ([])
+      expect(Permisi.actors).to eq([])
     end
   end
 
@@ -40,22 +40,7 @@ RSpec.describe Permisi do
     it "returns roles" do
       DummyBackend.reset
       allow(Permisi.config).to receive(:backend) { DummyBackend }
-      expect(Permisi.roles).to eq ([])
-    end
-  end
-
-  describe ".__backend" do
-    context "with valid backend" do
-      it "returns the backend" do
-        allow(Permisi.config).to receive(:backend) { DummyBackend }
-        expect(Permisi.send("__backend")).to eq DummyBackend
-      end
-    end
-
-    context "with invalid backend" do
-      it "raises InvalidBackend" do
-        expect { Permisi.send("__backend") }.to raise_error Permisi::Backend::InvalidBackend
-      end
+      expect(Permisi.roles).to eq([])
     end
   end
 end

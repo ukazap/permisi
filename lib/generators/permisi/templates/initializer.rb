@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "permisi"
 
 Permisi.init do |config|

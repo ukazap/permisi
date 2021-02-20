@@ -1,5 +1,10 @@
 AllCops:
   TargetRubyVersion: 2.4
+  NewCops: enable
+  Exclude:
+    - "lib/generators/**/*"
+    - "spec/**/*" # stuff for later
+    - "lib/permisi/permission_util.rb" # The necessary evil (for now)
 
 Style/StringLiterals:
   Enabled: true
@@ -11,3 +16,7 @@ Style/StringLiteralsInInterpolation:
 
 Layout/LineLength:
   Max: 120
+
+# Stuff for later
+Documentation:
+  Enabled: false

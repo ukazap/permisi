@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 
 RSpec.describe Permisi::Config do
@@ -20,13 +22,32 @@ RSpec.describe Permisi::Config do
     end
   end
 
+  describe "#backend" do
+    context "without backend" do
+      subject { described_class.new }
+
+      it "returns NullBackend" do
+        expect(subject.backend).to eq Permisi::Backend::NullBackend
+      end
+    end
+
+    context "with valid backend" do
+      subject { described_class.new }
+
+      it "returns the backend" do
+        allow(subject).to receive(:backend) { DummyBackend }
+        expect(subject.backend).to eq DummyBackend
+      end
+    end
+  end
+
   describe "#permissions=" do
     context "with valid permission namespace hash" do
       subject { described_class.new }
 
       it "assigns successfully and generates the default permissions hash" do
-        expect { subject.permissions = { a: [:b, :c] } }.not_to raise_error
-        expect(subject.permissions).to eq HashWithIndifferentAccess.new({ a: [:b, :c] })
+        expect { subject.permissions = { a: %i[b c] } }.not_to raise_error
+        expect(subject.permissions).to eq HashWithIndifferentAccess.new({ a: %i[b c] })
         expect(subject.default_permissions).to eq HashWithIndifferentAccess.new({ a: { b: false, c: false } })
       end
     end
@@ -35,11 +56,11 @@ RSpec.describe Permisi::Config do
       subject { described_class.new }
 
       it "raises InvalidNamespace" do
-        expect {
-          subject.permissions = { a: [:b, :c], c: 123 }
-        }.to raise_error Permisi::PermissionUtil::InvalidNamespace
-        expect(subject.permissions).to eq Hash.new
-        expect(subject.default_permissions).to eq Hash.new
+        expect do
+          subject.permissions = { a: %i[b c], c: 123 }
+        end.to raise_error Permisi::PermissionUtil::InvalidNamespace
+        expect(subject.permissions).to eq({})
+        expect(subject.default_permissions).to eq({})
       end
     end
   end
