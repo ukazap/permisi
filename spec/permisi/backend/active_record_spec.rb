@@ -9,16 +9,6 @@ RSpec.describe Permisi::Backend::ActiveRecord do
     expect(described_class.respond_to?(:roles)).to be true
   end
 
-  describe Permisi::Backend::ActiveRecord::Actor do
-    subject { described_class.new }
-
-    it "has actor interfaces" do
-      expect(subject.respond_to?(:has_role?)).to be true
-      expect(subject.respond_to?(:may?)).to be true
-      expect(subject.respond_to?(:may_i?)).to be true
-    end
-  end
-
   describe Permisi::Backend::ActiveRecord::Role do
     subject { described_class.new }
 

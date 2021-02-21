@@ -3,6 +3,7 @@
 # 0.1.2
 
 - Fix namespaces/actions should no longer contain periods
+- Implement cache config for faster access to actor permissions
 
 # 0.1.1
 
@@ -15,9 +16,9 @@
 
 Finished extraction work from my past projects.
 
-- Implemented ActiveRecord backend
-- Implemented `Actable` mixin
-- Implemented permissions hash sanitization and checking
+- Implement ActiveRecord backend
+- Implement `Actable` mixin
+- Implement permissions hash sanitization and checking
 
 # 0.0.1
 

@@ -189,6 +189,58 @@ user.permisi.role? :admin # == false
 user.permisi.may_i? "books.delete" # == false
 ```
 
+## Caching
+
+Permisi has several optimizations out of the box: actor roles eager loading, actor permissions memoization, and the optional actor permissions caching.
+
+### Actor roles eager loading
+
+Although checking whether an actor has a role goes against a good RBAC practice, it is still possible on Permisi. Calling `role?` multiple times will only make one call to the database:
+
+```ruby
+user = User.find_by_email "esther@example.com"
+user.role? :admin # eager loads roles
+user.role? :admin # uses the eager-loaded roles
+user.has_role? :admin # uses the eager-loaded roles
+```
+
+### Actor permissions memoization
+
+To check whether or not an actor is allowed to perform a specific action (`#may_i?`), Permisi will check on the actor's permissions which is constructed in the following steps:
+
+- get all roles an actor have (this will make a database call)
+- initialize an empty aggregate hash
+- for each roles, merge its permissions hash to the aggregate hash
+
+Deserializing the hashes from the database and deeply-merging them into an aggregate hash can be expensive, so it will only happen to an instance of actor only once through memoization.
+
+### Actor permissions caching
+
+Although memoization helps, the permission hash construction will still occur everytime a actor is initialized. To alleviate this, we can introduce a caching layer so that we can skip the hash construction for fresh actors. You must configure a cache store to use caching:
+
+```ruby
+# config/initializers/permisi.rb
+
+Permisi.init do |config|
+  # You can use the default Rails cache store
+  config.cache_store = Rails.cache
+  # or use other cache stores
+  config.cache_store = ActiveSupport::Cache::RedisCacheStore.new(url: ENV['REDIS_URL'])
+  # or
+  config.cache_store = ActiveSupport::Cache::FileStore.new("/home/ukazap/permisi_cache/")
+end
+```
+
+You can also roll your own [custom cache store](https://guides.rubyonrails.org/caching_with_rails.html#custom-cache-stores).
+
+### Cache/memo invalidation
+
+The following will trigger actor's permissions cache/memo invalidation:
+
+- adding roles to the actor
+- removing roles from the actor
+- editing roles that belongs to an actor
+
 ## Contributing
 
 For development and how to submit improvements, please refer to the [contribution guide](https://github.com/ukazap/permisi/blob/main/CONTRIBUTING.md).

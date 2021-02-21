@@ -10,4 +10,8 @@ Permisi.init do |config|
   # Define all permissions available in the system
   # See https://github.com/ukazap/permisi#configuring-permissions
   config.permissions = {}
+
+  # Define cache store
+  # See https://github.com/ukazap/permisi#caching
+  config.cache_store = Rails.cache
 end

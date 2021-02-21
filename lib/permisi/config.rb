@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
-require "active_support/core_ext/class/attribute_accessors"
-
 module Permisi
   class Config
+    class InvalidCacheStore < StandardError; end
+
+    NULL_CACHE_STORE = ActiveSupport::Cache::NullStore.new
+
     attr_reader :permissions, :default_permissions
 
     def initialize
@@ -26,6 +28,16 @@ module Permisi
       permissions_hash = HashWithIndifferentAccess.new(permissions_hash)
       @default_permissions = PermissionUtil.transform_namespace(permissions_hash)
       @permissions = permissions_hash
+    end
+
+    def cache_store=(cache_store)
+      raise InvalidCacheStore unless cache_store.respond_to?(:fetch)
+
+      @cache_store = cache_store
+    end
+
+    def cache_store
+      @cache_store || NULL_CACHE_STORE
     end
   end
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "active_model/type"
-require "active_support/hash_with_indifferent_access"
+require "active_support"
 require "zeitwerk"
 
 module Permisi

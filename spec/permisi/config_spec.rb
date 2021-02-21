@@ -64,4 +64,35 @@ RSpec.describe Permisi::Config do
       end
     end
   end
+
+  describe "#cache_store" do
+    subject { described_class.new }
+
+    it "responds to #fetch" do
+      expect(subject.cache_store.respond_to? :fetch).to be true
+    end
+  end
+
+  describe "#cache_store=" do
+    subject { described_class.new }
+
+    context "given a valid cache store" do
+      it "uses the cache store" do
+        DummyCacheStore = Class.new do
+          def fetch(cache_key)
+            yield if block_given?
+          end
+        end
+
+        expect { subject.cache_store = DummyCacheStore.new }.not_to raise_error
+        expect(subject.cache_store.class).to be DummyCacheStore
+      end
+    end
+
+    context "given an invalid cache store" do
+      it "raises InvalidCacheStore" do
+        expect { subject.cache_store = Object.new }.to raise_error(Permisi::Config::InvalidCacheStore)
+      end
+    end
+  end
 end
