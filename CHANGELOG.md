@@ -1,5 +1,9 @@
 # Changelog
 
+# 0.1.2
+
+- Fix namespaces/actions should no longer contain periods
+
 # 0.1.1
 
 - General code refactoring

@@ -153,6 +153,27 @@ RSpec.describe Permisi::PermissionUtil do
       end
     end
 
+    context "whith symbols containing period" do
+      let(:hashes) do
+        [
+          { :"this.is.a.symbol" => [:action_a, :action_b] },
+          { namespace_a: [:"this.is.a.symbol", :action_b] },
+          { namespace_a: [:action_a, { :"this.is.a.symbol" => [:a, :b] }] },
+          { namespace_a: [:action_a, { namespace_ab: [:a, :"this.is.a.symbol"] }] },
+          { namespace_a: [:action_a, { namespace_ab: [:a, { :"this.is.a.symbol" => [] }] }] }
+        ]
+      end
+
+      it "raises InvalidNamespace" do
+        hashes.each do |h|
+          expect do
+            described_class.transform_namespace(h)
+          end.to raise_error(Permisi::PermissionUtil::InvalidNamespace,
+                             "namespace or action should not contain period: `this.is.a.symbol`")
+        end
+      end
+    end
+
     context "with array containing value other than symbol and hash" do
       let(:hash) { { namespace_a: [:action_a, :action_b, []] } }
       let(:hash_2) { { namespace_a: [:action_a, 123] } }

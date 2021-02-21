@@ -20,14 +20,22 @@ module Permisi
       def transform_namespace(namespace, current_path: nil)
         HashWithIndifferentAccess.new.tap do |transformed|
           namespace.each_pair do |key, value|
-            unless value.is_a? Array
+            if !value.is_a? Array
               raise InvalidNamespace,
                     "`#{[current_path, key].compact.join(".")}` should be an array"
+            end
+
+            if key.to_s.include?(".")
+              raise InvalidNamespace, "namespace or action should not contain period: `#{key}`"
             end
 
             value.each.with_index do |arr_v, arr_i|
               case arr_v
               when Symbol
+                if arr_v.to_s.include?(".")
+                  raise InvalidNamespace, "namespace or action should not contain period: `#{arr_v}`"
+                end
+
                 transformed[key] ||= ::HashWithIndifferentAccess.new
                 if transformed[key].key? arr_v
                   raise InvalidNamespace, "duplicate entry: `#{[current_path, key, arr_v].compact.join(".")}`"
