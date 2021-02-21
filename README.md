@@ -239,7 +239,7 @@ The following will trigger actor's permissions cache/memo invalidation:
 
 - adding roles to the actor
 - removing roles from the actor
-- editing roles that belongs to an actor
+- editing roles that belongs to the actor
 
 ## Contributing
 
