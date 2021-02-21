@@ -210,13 +210,13 @@ To check whether or not an actor is allowed to perform a specific action (`#may_
 
 - get all roles an actor have (this will make a database call)
 - initialize an empty aggregate hash
-- for each roles, merge its permissions hash to the aggregate hash
+- for each role, merge its permissions hash to the aggregate hash
 
 Deserializing the hashes from the database and deeply-merging them into an aggregate hash can be expensive, so it will only happen to an instance of actor only once through memoization.
 
 ### Actor permissions caching
 
-Although memoization helps, the permission hash construction will still occur everytime a actor is initialized. To alleviate this, we can introduce a caching layer so that we can skip the hash construction for fresh actors. You must configure a cache store to use caching:
+Although memoization helps, the permission hash construction will still occur every time an actor is initialized. To alleviate this, we can introduce a caching layer so that we can skip the hash construction for fresh actors. You must configure a cache store to use caching:
 
 ```ruby
 # config/initializers/permisi.rb
