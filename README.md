@@ -208,7 +208,7 @@ user.permisi.has_role? :admin # uses the eager-loaded roles
 
 To check whether or not an actor is allowed to perform a specific action (`#may_i?`), Permisi will check on the actor's permissions which is constructed in the following steps:
 
-- get all roles an actor have (this will make a database call)
+- load all the roles an actor have from the database
 - initialize an empty aggregate hash
 - for each role, merge its permissions hash to the aggregate hash
 
