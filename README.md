@@ -145,8 +145,8 @@ admin_role = Permisi.roles.create(slug: :admin, name: "Administrator", permissio
 admin_role.allows? "books.delete" # == false
 
 # Update existing role
-admin.permissions[:books].merge!({ delete: true })
-admin.save
+admin_role.permissions[:books].merge!({ delete: true })
+admin_role.save
 admin_role.allows? "books.delete" # == true
 ```
 
