@@ -142,12 +142,12 @@ admin_role = Permisi.roles.create(slug: :admin, name: "Administrator", permissio
 })
 
 # Ask specific role permission
-admin_role.allows? "books.delete" # == false
+admin_role.allows?("books.delete") # == false
 
 # Update existing role
 admin_role.permissions[:books].merge!({ delete: true })
 admin_role.save
-admin_role.allows? "books.delete" # == true
+admin_role.allows?("books.delete") # == true
 ```
 
 ## Configuring actors
@@ -173,20 +173,20 @@ user = User.find_by_email "esther@example.com"
 user.permisi # => instance of Actor
 
 admin_role = Permisi.roles.find_by_slug(:admin)
-admin_role.allows? "books.delete" # == true
+admin_role.allows?("books.delete") # == true
 
 user.permisi.roles << admin_role
 
-user.permisi.role? :admin # == true
-user.permisi.has_role? :admin # == user.permisi.role? :admin
+user.permisi.role?(:admin) # == true
+user.permisi.has_role?(:admin) # == user.permisi.role? :admin
 
-user.permisi.may_i? "books.delete" # == true
-user.permisi.may? "books.delete" # == user.permisi.may_i? "books.delete"
+user.permisi.may_i?("books.delete") # == true
+user.permisi.may?("books.delete") # == user.permisi.may_i? "books.delete"
 
 user.permisi.roles.destroy(admin_role)
 
-user.permisi.role? :admin # == false
-user.permisi.may_i? "books.delete" # == false
+user.permisi.role?(:admin) # == false
+user.permisi.may_i?("books.delete") # == false
 ```
 
 ## Caching
@@ -199,9 +199,9 @@ Although checking whether an actor has a role goes against a good RBAC practice,
 
 ```ruby
 user = User.find_by_email "esther@example.com"
-user.permisi.role? :admin # eager loads roles
-user.permisi.role? :admin # uses the eager-loaded roles
-user.permisi.has_role? :admin # uses the eager-loaded roles
+user.permisi.role?(:admin) # eager loads roles
+user.permisi.role?(:admin) # uses the eager-loaded roles
+user.permisi.has_role?(:admin) # uses the eager-loaded roles
 ```
 
 ### Actor permissions memoization
