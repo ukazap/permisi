@@ -20,7 +20,7 @@ module Permisi
 
         # Memoized and cached actor permissions
         def permissions
-          @permissions ||= Permisi.config.cache_store.fetch(cache_key) { aggregate_permissions }
+          @permissions ||= Permisi.config.cache_store.fetch("#{cache_key}-p") { aggregate_permissions }
         end
 
         # Aggregate permissions from all roles an actor plays

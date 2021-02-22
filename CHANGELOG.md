@@ -1,5 +1,12 @@
 # Changelog
 
+# 0.1.3
+
+[_View the docs._](https://github.com/ukazap/permisi/blob/v0.1.3/README.md)
+
+- Correct grammars and examples in the docs
+- Change actor permissions cache key
+
 # 0.1.2
 
 [_View the docs._](https://github.com/ukazap/permisi/blob/v0.1.2/README.md)
