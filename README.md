@@ -199,9 +199,9 @@ Although checking whether an actor has a role goes against a good RBAC practice,
 
 ```ruby
 user = User.find_by_email "esther@example.com"
-user.role? :admin # eager loads roles
-user.role? :admin # uses the eager-loaded roles
-user.has_role? :admin # uses the eager-loaded roles
+user.permisi.role? :admin # eager loads roles
+user.permisi.role? :admin # uses the eager-loaded roles
+user.permisi.has_role? :admin # uses the eager-loaded roles
 ```
 
 ### Actor permissions memoization
