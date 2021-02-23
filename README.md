@@ -169,7 +169,7 @@ end
 You can then interact using `#permisi` method:
 
 ```ruby
-user = User.find_by_email "esther@example.com"
+user = User.find_by_email("esther@example.com")
 user.permisi # => instance of Actor
 
 admin_role = Permisi.roles.find_by_slug(:admin)
@@ -198,7 +198,7 @@ Permisi has several optimizations out of the box: actor roles eager loading, act
 Although checking whether an actor has a role goes against a good RBAC practice, it is still possible on Permisi. Calling `role?` multiple times will only make one call to the database:
 
 ```ruby
-user = User.find_by_email "esther@example.com"
+user = User.find_by_email("esther@example.com")
 user.permisi.role?(:admin) # eager loads roles
 user.permisi.role?(:admin) # uses the eager-loaded roles
 user.permisi.has_role?(:admin) # uses the eager-loaded roles
