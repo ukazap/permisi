@@ -18,6 +18,8 @@ class CreatePermisiTables < ActiveRecord::Migration<%= migration_version %>
       t.belongs_to :actor
       t.belongs_to :role
     end
+
+    add_index :permisi_actor_roles, [:actor_id, :role_id], unique: true
   end
 
   def down

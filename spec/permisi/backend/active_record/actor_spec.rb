@@ -54,4 +54,15 @@ RSpec.describe Permisi::Backend::ActiveRecord::Actor do
       expect(actor.may_i?("tardis.steer")).to be false
     end
   end
+
+  describe "#roles <<" do
+    let(:actor) { Permisi::Backend::ActiveRecord::Actor.create!(aka: User.create!(name: "Esther")) }
+    let(:role) { Permisi::Backend::ActiveRecord::Role.create!(slug: :role) }
+
+    it "does not assign duplicate roles" do
+      actor.roles << role
+      actor.roles << role
+      expect(actor.roles.length).to eq 1
+    end
+  end
 end

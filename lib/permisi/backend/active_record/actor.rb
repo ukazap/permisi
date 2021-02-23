@@ -6,9 +6,13 @@ module Permisi
       class Actor < ::ActiveRecord::Base
         belongs_to :aka, polymorphic: true, touch: true
         has_many :actor_roles, dependent: :destroy
-        has_many :roles, through: :actor_roles
+        has_many :roles, -> { distinct }, through: :actor_roles
 
         after_commit :reset_permissions
+
+        def roles
+          super.extend(ActorRolesCollectionProxy)
+        end
 
         def role?(role_slug)
           roles.load.any? { |role| role.slug == role_slug.to_s }
@@ -38,6 +42,19 @@ module Permisi
 
         alias may? may_i?
         alias has_role? role?
+
+        module ActorRolesCollectionProxy
+          def <<(new_role)
+            super
+          rescue ::ActiveRecord::RecordNotUnique
+            self
+          end
+
+          def delete(*records)
+            warn "WARNING: `#delete(*records)` won't invalidate the cache, use `#destroy(*records)` instead."
+            super
+          end
+        end
       end
     end
   end

@@ -1,5 +1,12 @@
 # Changelog
 
+# 0.1.4
+
+[_View the docs._](https://github.com/ukazap/permisi/blob/v0.1.4/README.md)
+
+- Add actor-role uniqueness constraint (previously it was possible to append the same role to an actor many times), if you are upgrading from previous versions, please create the following migration: `add_index :permisi_actor_roles, [:actor_id, :role_id], unique: true`
+- Show warning when calling "roles.delete" because it won't invalidate the cache
+
 # 0.1.3
 
 [_View the docs._](https://github.com/ukazap/permisi/blob/v0.1.3/README.md)

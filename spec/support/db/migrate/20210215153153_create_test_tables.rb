@@ -21,6 +21,8 @@ class CreateTestTables < ActiveRecord::Migration[6.1]
       t.belongs_to :role
     end
 
+    add_index :permisi_actor_roles, [:actor_id, :role_id], unique: true
+
     create_table :users do |t|
       t.timestamps
       t.string :name
