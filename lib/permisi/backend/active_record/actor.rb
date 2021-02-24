@@ -6,7 +6,7 @@ module Permisi
       class Actor < ::ActiveRecord::Base
         belongs_to :aka, polymorphic: true, touch: true
         has_many :actor_roles, dependent: :destroy
-        has_many :roles, -> { distinct }, through: :actor_roles
+        has_many :roles, through: :actor_roles
 
         after_commit :reset_permissions
 

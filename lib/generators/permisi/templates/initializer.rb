@@ -15,6 +15,6 @@ Permisi.init do |config|
   # See https://github.com/ukazap/permisi#caching
   config.cache_store = Rails.cache
 
-  # Uncomment to mute initialization warnings
-  # config.mute_warnings = true
+  # Mute pre-0.1.4 ActiveRecord backend initialization warning
+  config.mute_pre_0_1_4_warning = true
 end

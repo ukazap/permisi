@@ -1,5 +1,21 @@
 # Changelog
 
+# 0.1.5
+
+[_View the docs._](https://github.com/ukazap/permisi/blob/v0.1.5/README.md)
+
+- Remove `-> { distinct }` from actor-roles has_many association
+- Add option to mute pre-0.1.4 ActiveRecord backend initialization warning:
+
+  ```ruby
+  # config/initializers/permisi.rb
+
+  Permisi.init do |config|
+    # Mute pre-0.1.4 ActiveRecord backend initialization warning
+    config.mute_pre_0_1_4_warning = true
+  end
+  ```
+
 # 0.1.4
 
 [_View the docs._](https://github.com/ukazap/permisi/blob/v0.1.4/README.md)
