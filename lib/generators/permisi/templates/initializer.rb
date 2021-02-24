@@ -14,4 +14,7 @@ Permisi.init do |config|
   # Define cache store
   # See https://github.com/ukazap/permisi#caching
   config.cache_store = Rails.cache
+
+  # Uncomment to mute initialization warnings
+  # config.mute_warnings = true
 end
