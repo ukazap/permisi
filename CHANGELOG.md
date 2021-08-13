@@ -1,5 +1,9 @@
 # Changelog
 
+# 0.1.6
+
+Bumps rexml from 3.2.4 to 3.2.5 [(CVE-2021-28965)](https://github.com/advisories/GHSA-8cr8-4vfw-mr7h).
+
 # 0.1.5
 
 [_View the docs._](https://github.com/ukazap/permisi/blob/v0.1.5/README.md)
